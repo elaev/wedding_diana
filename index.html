@@ -308,18 +308,40 @@ const CONFIG = {
 
     // x,y — положение в % экрана; w — ширина в vw; dx,dy — куда разлетается; rot — поворот
     const seeds = [
+      // боковые
       { x:  3, y:  6, w:20, dx:-46, dy:-30, rot:-16, o:.95 },
       { x: 78, y:  2, w:22, dx: 50, dy:-34, rot: 14, o:.95 },
       { x: -4, y: 40, w:26, dx:-58, dy:  6, rot:-10, o:1   },
       { x: 76, y: 44, w:27, dx: 60, dy: 10, rot: 12, o:1   },
       { x:  6, y: 76, w:21, dx:-44, dy: 40, rot: 18, o:.95 },
       { x: 72, y: 79, w:23, dx: 48, dy: 44, rot:-14, o:.95 },
-      { x: 33, y: -6, w:16, dx: -8, dy:-52, rot: 10, o:.85 },
-      { x: 52, y: 88, w:17, dx: 10, dy: 54, rot:-12, o:.85 },
       { x: 20, y: 22, w:12, dx:-30, dy:-16, rot: 20, o:.7  },
       { x: 68, y: 24, w:13, dx: 34, dy:-18, rot:-18, o:.7  },
       { x: 22, y: 62, w:12, dx:-32, dy: 26, rot:-20, o:.7  },
-      { x: 66, y: 64, w:13, dx: 36, dy: 28, rot: 16, o:.7  }
+      { x: 66, y: 64, w:13, dx: 36, dy: 28, rot: 16, o:.7  },
+
+      // занавес по центру — левая створка
+      { x: 26, y: -8, w:22, dx:-52, dy:-14, rot:-12, o:1   },
+      { x: 30, y: 12, w:24, dx:-58, dy: -6, rot: -9, o:1   },
+      { x: 27, y: 34, w:26, dx:-64, dy:  0, rot:-14, o:1   },
+      { x: 30, y: 56, w:24, dx:-60, dy:  8, rot: 11, o:1   },
+      { x: 27, y: 76, w:22, dx:-54, dy: 18, rot:-10, o:1   },
+      { x: 33, y: 90, w:18, dx:-46, dy: 30, rot: 15, o:.9  },
+
+      // занавес по центру — правая створка
+      { x: 52, y: -6, w:23, dx: 54, dy:-16, rot: 13, o:1   },
+      { x: 48, y: 14, w:25, dx: 60, dy: -4, rot: 10, o:1   },
+      { x: 51, y: 36, w:26, dx: 66, dy:  2, rot: 15, o:1   },
+      { x: 48, y: 58, w:24, dx: 62, dy: 10, rot:-11, o:1   },
+      { x: 51, y: 78, w:22, dx: 56, dy: 20, rot: 12, o:1   },
+      { x: 46, y: 91, w:18, dx: 48, dy: 32, rot:-14, o:.9  },
+
+      // мелкие в центре, чтобы стык створок не просвечивал
+      { x: 38, y:  4, w:14, dx:-16, dy:-38, rot: 18, o:.85 },
+      { x: 43, y: 26, w:15, dx: 20, dy:-30, rot:-16, o:.85 },
+      { x: 38, y: 48, w:14, dx:-22, dy:  0, rot: 14, o:.85 },
+      { x: 43, y: 68, w:15, dx: 24, dy: 34, rot:-18, o:.85 },
+      { x: 38, y: 86, w:14, dx:-18, dy: 42, rot: 16, o:.85 }
     ];
 
     const nodes = seeds.map(function(s, i){
@@ -329,7 +351,7 @@ const CONFIG = {
       img.className = 'enter';
       img.style.cssText =
         'left:' + s.x + '%;top:' + s.y + '%;--w:' + s.w + 'vw;opacity:' + s.o +
-        ';animation-delay:' + (i * 55) + 'ms';
+        ';animation-delay:' + (i * 38) + 'ms';
       layer.appendChild(img);
       return { el: img, s: s };
     });
@@ -337,7 +359,7 @@ const CONFIG = {
     // после раскрытия отдаём управление прокрутке
     setTimeout(function(){
       nodes.forEach(function(n){ n.el.classList.remove('enter'); });
-    }, 1000 + seeds.length * 55);
+    }, 1000 + seeds.length * 38);
 
     let ticking = false;
     function draw(){
@@ -351,7 +373,7 @@ const CONFIG = {
         n.el.style.transform =
           'translate3d(' + (s.dx * ease) + 'vw,' + (s.dy * ease) + 'vh,0)' +
           ' rotate(' + (s.rot * ease) + 'deg) scale(' + (1 + .18 * ease) + ')';
-        n.el.style.opacity = s.o * (1 - ease * .92);
+        n.el.style.opacity = s.o * (1 - ease * .8);
       });
       layer.style.visibility = p >= 1 ? 'hidden' : 'visible';
     }
