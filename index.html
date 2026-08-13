@@ -63,10 +63,6 @@ p{margin:0 0 1em}
   z-index:0;pointer-events:none;overflow:clip;contain:paint;
 }
 .bg img{position:absolute;width:var(--w);opacity:.19;filter:saturate(.8)}
-@media (max-width:620px){
-  .bg img{opacity:.15}
-}
-
 /* ---------- цветы на первом экране ---------- */
 .petals{position:fixed;inset:0;z-index:6;pointer-events:none;overflow:hidden;overflow:clip;contain:paint}
 .petals img{
@@ -121,10 +117,14 @@ p{margin:0 0 1em}
 }
 .arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .cover-inner{position:relative;z-index:2;width:56%}
-.cover h1{font-family:var(--display);font-size:11.4cqw;line-height:1}
+.cover h1{
+  font-family:var(--display);font-size:11.4cqw;line-height:1;
+  -webkit-text-stroke:.024em currentColor;
+}
 .cover h1 em{
   display:block;font-style:normal;letter-spacing:.18em;
   font-size:.4em;margin-top:.9em;color:var(--ink-soft);
+  -webkit-text-stroke:.018em currentColor;
 }
 .scroll-hint{
   position:absolute;bottom:26px;left:0;right:0;font-size:11px;letter-spacing:.32em;
