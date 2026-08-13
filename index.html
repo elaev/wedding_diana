@@ -31,7 +31,7 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;background:var(--paper);color:var(--ink);
-  font-family:var(--body);font-weight:300;font-size:17px;line-height:1.8;
+  font-family:var(--body);font-weight:300;font-size:19px;line-height:1.8;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center;
 }
 h1{font-weight:400;margin:0}
@@ -39,8 +39,8 @@ p{margin:0 0 1em}
 
 .wrap{max-width:620px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
 .sec{padding:88px 0;position:relative}
-.eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);margin-bottom:22px}
-.note{font-size:17px;color:var(--ink-soft)}
+.eyebrow{font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);margin-bottom:22px}
+.note{font-size:19px;color:var(--ink-soft)}
 
 /* цветочные ветви по краям */
 .deco{position:absolute;pointer-events:none;z-index:0;width:min(36vw,238px);opacity:.95}
@@ -108,48 +108,47 @@ p{margin:0 0 1em}
   container-type:inline-size;display:flex;align-items:center;justify-content:center;
 }
 .arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.cover-inner{position:relative;z-index:2;width:52%}
-.cover h1{font-family:var(--display);font-size:9.6cqw;line-height:1}
+.cover-inner{position:relative;z-index:2;width:56%}
+.cover h1{font-family:var(--display);font-size:11.4cqw;line-height:1}
 .cover h1 em{
   display:block;font-style:normal;letter-spacing:.18em;
   font-size:.4em;margin-top:.9em;color:var(--ink-soft);
 }
 .scroll-hint{
-  position:absolute;bottom:26px;left:0;right:0;font-size:10px;letter-spacing:.32em;
+  position:absolute;bottom:26px;left:0;right:0;font-size:11px;letter-spacing:.32em;
   text-transform:uppercase;color:var(--ink-soft);z-index:2;
 }
 
 /* ---------- письмо ---------- */
-.letter{font-family:var(--title);font-size:19px;line-height:1.95}
-.letter em{font-style:italic;display:block;margin-bottom:20px;font-size:21px}
+.letter{font-family:var(--title);font-size:22px;line-height:1.9}
+.letter em{font-style:italic;display:block;margin-bottom:20px;font-size:24px}
 .letter p:last-child{margin-bottom:0}
 
 /* ---------- счётчик ---------- */
 .count{display:flex;justify-content:center;gap:4px;flex-wrap:wrap}
-.count div{min-width:80px;padding:14px 8px}
-.count b{display:block;font-family:var(--title);font-weight:400;font-size:32px;line-height:1}
-.count span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.count div{min-width:88px;padding:14px 8px}
+.count b{display:block;font-family:var(--title);font-weight:400;font-size:37px;line-height:1}
+.count span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
 
 /* ---------- начало ---------- */
-.start-time{font-family:var(--title);font-size:clamp(48px,13vw,76px);line-height:1}
-.start-time + .note{margin-top:14px;font-size:15px}
+.start-date{
+  font-family:var(--title);font-size:22px;color:var(--ink-soft);
+  letter-spacing:.04em;margin-bottom:10px;
+}
+.start-time{font-family:var(--title);font-size:clamp(56px,14.5vw,88px);line-height:1}
+.start-time + .note{margin-top:14px;font-size:17px}
 
 /* ---------- место ---------- */
-.place-name{font-family:var(--title);font-size:25px;margin-bottom:6px}
+.place-name{font-family:var(--title);font-size:29px;margin-bottom:6px}
 .btn{
-  display:inline-block;margin-top:26px;padding:15px 36px;border:1px solid var(--ink);
-  font-size:11px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;
+  display:inline-block;margin-top:26px;padding:16px 40px;border:1px solid var(--ink);
+  font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;
   color:var(--ink);font-family:var(--body);transition:background .25s,color .25s;
 }
 .btn:hover,.btn:focus-visible{background:var(--ink);color:var(--paper)}
 
-footer{padding:70px 28px 84px}
-footer .sig{font-family:var(--display);font-size:30px}
-footer .regards{margin-top:26px;font-family:var(--title);font-size:16px;color:var(--ink-soft)}
-footer .sig span{
-  font-family:var(--body);font-size:11px;display:block;letter-spacing:.26em;
-  text-transform:uppercase;color:var(--ink-soft);margin-top:14px;
-}
+footer{padding:54px 28px 76px}
+footer .regards{margin-top:26px;font-family:var(--title);font-size:19px;color:var(--ink-soft)}
 
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .9s ease,transform .9s ease}
 .reveal.in{opacity:1;transform:none}
@@ -159,8 +158,8 @@ footer .sig span{
 }
 @media (max-width:560px){
   .sec{padding:70px 0}
-  .letter{font-size:18px}
-  .count div{min-width:70px}
+  .letter{font-size:20px}
+  .count div{min-width:76px}
   .deco{width:34vw;opacity:.5}
   .deco.left{left:-8%}
   .deco.right{right:-8%}
@@ -235,6 +234,7 @@ const CONFIG = {
   <div class="wrap reveal">
     <div class="divider"></div>
     <div class="eyebrow">Начало торжества</div>
+    <div class="start-date" id="start-date"></div>
     <div class="start-time" id="start-time"></div>
     <div class="note" id="start-note"></div>
   </div>
@@ -259,7 +259,6 @@ const CONFIG = {
 </section>
 
 <footer>
-  <div class="sig">Diana's wedding day<span id="f-date"></span></div>
   <div class="regards">С уважением, семья Папаевых</div>
 </footer>
 
@@ -269,7 +268,6 @@ const CONFIG = {
 (function(){
   const C = CONFIG, D = new Date(C.date);
 
-  document.getElementById('f-date').textContent = C.dateText + ' · ' + C.city;
 
   const plural = function(n, f){
     const a = n % 10, b = n % 100;
@@ -293,6 +291,7 @@ const CONFIG = {
   }
   tick(); setInterval(tick, 1000);
 
+  document.getElementById('start-date').textContent = C.dateText;
   document.getElementById('start-time').textContent = C.startTime;
   document.getElementById('start-note').textContent = C.startNote;
   document.getElementById('p-name').textContent = C.place.name;
