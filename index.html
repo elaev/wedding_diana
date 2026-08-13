@@ -28,24 +28,25 @@
   --body:'Jost',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+img{max-width:100%}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   margin:0;background:var(--paper);color:var(--ink);
   font-family:var(--body);font-weight:300;font-size:19px;line-height:1.8;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;text-align:center;position:relative;
 }
 h1{font-weight:400;margin:0}
 p{margin:0 0 1em}
 
 .wrap{max-width:620px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
-.sec{padding:88px 0;position:relative}
+.sec{padding:88px 0;position:relative;overflow:clip}
 .eyebrow{font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--olive);margin-bottom:22px}
 .note{font-size:19px;color:var(--ink-soft)}
 
 /* цветочные ветви по краям */
 .deco{position:absolute;pointer-events:none;z-index:0;width:min(36vw,238px);opacity:.95}
-.deco.left{left:-5%;top:-26px}
-.deco.right{right:-5%;bottom:-30px}
+.deco.left{left:-4%;top:-26px}
+.deco.right{right:-4%;bottom:-30px}
 
 /* разделитель */
 .divider{margin:0 auto 40px;width:150px;height:9px;position:relative;opacity:.55}
@@ -55,8 +56,19 @@ p{margin:0 0 1em}
   background:var(--olive);transform:rotate(45deg);
 }
 
+/* ---------- ветви на фоне ---------- */
+.bg{
+  /* начинается там, где заканчивается закреплённая обложка */
+  position:absolute;top:200svh;left:0;width:100%;height:calc(100% - 200svh);
+  z-index:0;pointer-events:none;overflow:clip;contain:paint;
+}
+.bg img{position:absolute;width:var(--w);opacity:.19;filter:saturate(.8)}
+@media (max-width:620px){
+  .bg img{opacity:.15}
+}
+
 /* ---------- цветы на первом экране ---------- */
-.petals{position:fixed;inset:0;z-index:6;pointer-events:none;overflow:hidden}
+.petals{position:fixed;inset:0;z-index:6;pointer-events:none;overflow:hidden;overflow:clip;contain:paint}
 .petals img{
   position:absolute;width:var(--w);will-change:transform,opacity;
   transform:translate3d(0,0,0);
@@ -104,7 +116,7 @@ p{margin:0 0 1em}
   align-items:center;justify-content:center;padding:40px 16px 76px;
 }
 .arch{
-  position:relative;width:min(96vw,660px);aspect-ratio:880/1305;
+  position:relative;width:min(94vw,660px);max-width:100%;aspect-ratio:880/1305;
   container-type:inline-size;display:flex;align-items:center;justify-content:center;
 }
 .arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
@@ -197,6 +209,8 @@ const CONFIG = {
   }
 };
 </script>
+
+<div class="bg" id="bg" aria-hidden="true"></div>
 
 <div class="petals" id="petals" aria-hidden="true"></div>
 
@@ -314,6 +328,45 @@ const CONFIG = {
   document.getElementById('p-name').textContent = C.place.name;
   document.getElementById('p-addr').textContent = C.place.address;
   document.getElementById('p-map').href = C.place.mapUrl;
+
+  /* еле заметные ветви на фоне — берём уже загруженные картинки, не дублируя их */
+  (function(){
+    const bg = document.getElementById('bg');
+    const left  = document.querySelector('.deco.left');
+    const right = document.querySelector('.deco.right');
+    if (!bg || !left || !right) return;
+
+    // x,y — положение в % от всей страницы; w — ширина в vw; rot — поворот; flip — отражение
+    const spots = [
+      { src:left,  x: -6, y:  1, w:40, rot:  6, flip:false },
+      { src:right, x: 64, y:  5, w:42, rot: -9, flip:false },
+      { src:right, x: 28, y: 11, w:34, rot: 22, flip:true  },
+      { src:left,  x:-10, y: 17, w:44, rot: 14, flip:true  },
+      { src:right, x: 60, y: 22, w:40, rot:-14, flip:true  },
+      { src:left,  x: 22, y: 29, w:36, rot:-24, flip:false },
+      { src:right, x: -8, y: 35, w:42, rot: 10, flip:false },
+      { src:left,  x: 62, y: 40, w:44, rot: 18, flip:true  },
+      { src:right, x: 30, y: 47, w:34, rot: -6, flip:false },
+      { src:left,  x: -9, y: 53, w:40, rot:-16, flip:false },
+      { src:right, x: 58, y: 59, w:44, rot: 12, flip:false },
+      { src:left,  x: 26, y: 65, w:36, rot: 26, flip:true  },
+      { src:right, x: -7, y: 71, w:42, rot: -8, flip:true  },
+      { src:left,  x: 61, y: 77, w:40, rot: 16, flip:false },
+      { src:right, x: 24, y: 84, w:34, rot:-20, flip:true  },
+      { src:left,  x: -8, y: 90, w:42, rot: 12, flip:false },
+      { src:right, x: 59, y: 94, w:40, rot:-12, flip:false }
+    ];
+
+    spots.forEach(function(sp){
+      const img = document.createElement('img');
+      img.src = sp.src.currentSrc || sp.src.src;
+      img.alt = '';
+      img.style.cssText =
+        'left:' + sp.x + '%;top:' + sp.y + '%;--w:' + sp.w + 'vw;transform:rotate(' +
+        sp.rot + 'deg)' + (sp.flip ? ' scaleX(-1)' : '');
+      bg.appendChild(img);
+    });
+  })();
 
   /* цветы на первом экране: раскрываются при загрузке, разлетаются при прокрутке */
   (function(){
